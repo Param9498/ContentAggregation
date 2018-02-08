@@ -8,6 +8,10 @@ use App\Http\Resources\ProfileResource;
 
 class ProfileController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +19,8 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        return ProfileResource::collection(Profile::all());
+        return response()->json(ProfileResource::collection(Profile::all()))->header('Content-Type', 'application/json');
+        //return ProfileResource::collection(Profile::all());
     }
 
     /**
