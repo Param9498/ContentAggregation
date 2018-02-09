@@ -26,3 +26,5 @@ Route::apiResources([
     'subtopics' => 'SubTopicController',
     'profiles' => 'ProfileController'
 ]);
+
+Route::middleware('auth:api')->get('/user/profile', 'ProfileController@getCurrentUsersProfileDetails');

@@ -18,3 +18,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/spa/{any}', 'SpaController@index')->where('any', '.*')->middleware('auth');
+Route::get('/spa', 'SpaController@index')->middleware('auth');
+
+Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout')->middleware('auth');

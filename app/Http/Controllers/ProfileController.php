@@ -88,4 +88,8 @@ class ProfileController extends Controller
     {
         //
     }
+    public function getCurrentUsersProfileDetails(Request $request)
+    {
+        return new ProfileResource(Profile::where('id', $request->user()->id)->first());
+    }
 }

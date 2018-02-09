@@ -6,35 +6,34 @@
  */
 
 require('./bootstrap');
+import VueRouter from 'vue-router'
+import App from './views/App'
+import SelectSemester from './views/SelectSemester.vue'
+import NavBar from './components/NavBar.vue'
 
 window.Vue = require('vue');
+Vue.use(VueRouter);
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-Vue.component(
-    'example-component', 
-    require('./components/ExampleComponent.vue')
-);
-
-Vue.component(
-    'passport-clients',
-    require('./components/passport/Clients.vue')
-);
-
-Vue.component(
-    'passport-authorized-clients',
-    require('./components/passport/AuthorizedClients.vue')
-);
-
-Vue.component(
-    'passport-personal-access-tokens',
-    require('./components/passport/PersonalAccessTokens.vue')
-);
+const router = new VueRouter({
+    mode: 'history',
+    routes: [
+        {
+            path: '/spa/SelectSemester',
+            name: 'SelectSemester',
+            component: SelectSemester
+        },
+        {
+            path: '/spa/home',
+            name: 'App',
+            component: App
+        }
+    ],
+});
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    components:{
+        'nav-bar': NavBar
+    },
+    router
 });
