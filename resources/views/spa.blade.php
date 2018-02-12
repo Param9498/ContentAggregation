@@ -8,11 +8,15 @@
     <title>Welcome to CrackEngineering</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Amatic+SC" />
+    <style>
+        html, body{
+            height: 100%;
+        }
+    </style>
 </head>
-<body>
+<body style="background-color: #FFFAE4;">
     <div id="app">
-        <nav-bar></nav-bar>
-        <router-view></router-view>
+        <app></app>
     </div>
 
     <script>

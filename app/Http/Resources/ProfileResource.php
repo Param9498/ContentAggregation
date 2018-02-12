@@ -21,9 +21,9 @@ class ProfileResource extends Resource
         return [
             'id' => $this->id,
             'user' => $this->user,
-            'university' => $this->university,
-            'degree' => $this->degree,
-            'branch' => $this->branch
+            'university' => new UniversityResource($this->university),
+            'degree' => new DegreeResource($this->degree),
+            'branch' => new BranchResource($this->branch)
         ];
     }
 }

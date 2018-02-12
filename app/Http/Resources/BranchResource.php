@@ -18,7 +18,7 @@ class BranchResource extends Resource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'subjects' => SubjectResource::collection($this->subjects)
+            //'subjects' => SubjectResource::collection($this->subjects)
         ];
     }
 }

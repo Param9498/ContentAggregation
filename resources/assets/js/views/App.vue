@@ -1,13 +1,18 @@
 <template>
     <div>
-        <h1 id="welcome">Welcome to Crack Engineering</h1>
+        <nav-bar></nav-bar>
+        <transition name="fade">
+            <router-view></router-view>
+        </transition>
     </div>
 </template>
 <script>
-    import SelectSemester from './SelectSemester.vue'
+    import NavBar from '../components/NavBar'
+    import Welcome from './Welcome'
     export default {
         components:{
-            'select-semester': SelectSemester
+            'nav-bar': NavBar,
+            'welcome': Welcome
         }
     }
 </script>
@@ -25,7 +30,18 @@
     font-weight: 1000;
     line-height: 26.4px;
 }
+.fade-enter-active, .fade-leave-active {
+  transition-property: opacity;
+  transition-duration: .25s;
+}
 
+.fade-enter-active {
+  transition-delay: .25s;
+}
+
+.fade-enter, .fade-leave-active {
+  opacity: 0
+}
 
 
 </style>

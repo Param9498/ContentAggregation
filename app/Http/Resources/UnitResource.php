@@ -19,7 +19,7 @@ class UnitResource extends Resource
             "id" => $this->id,
             "name" => $this->name,
             "unit_number" => $this->unit_number,
-            "subtopics" => SubTopicResource::collection($this->subtopics),
+            //"subtopics" => SubTopicResource::collection($this->subtopics),
         ];
     }
 }

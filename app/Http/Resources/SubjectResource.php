@@ -19,7 +19,7 @@ class SubjectResource extends Resource
             "id" => $this->id,
             "name" => $this->name,
             "semester_number" => $this->semester_number,
-            "units" => UnitResource::collection($this->units),
+            //"units" => UnitResource::collection($this->units),
         ];
     }
 }

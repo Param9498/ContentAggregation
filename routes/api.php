@@ -28,3 +28,11 @@ Route::apiResources([
 ]);
 
 Route::middleware('auth:api')->get('/user/profile', 'ProfileController@getCurrentUsersProfileDetails');
+
+Route::middleware('auth:api')->get('/branch/{branch}/subjects', 'BranchController@getAllSubjectsInThisBranch');
+
+Route::middleware('auth:api')->get('/branch/{branch}/subjects/units', 'BranchController@getUnitsFromBranch');
+
+Route::middleware('auth:api')->get('/branch/{branch}/subjects/units/subtopics', 'BranchController@getSubtopicsFromBranch');
+
+Route::middleware('auth:api')->get('/branch/{branch}/semesters/subjects/units/subtopics', 'BranchController@getSemesterWiseDetailsFromBranch');

@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
-use App\Http\Resources\BranchResource;
+use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\SubjectWithSubtopicResource;
 
-class DegreeResource extends Resource
+class BranchWithSubtopicResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,8 +18,7 @@ class DegreeResource extends Resource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'number_of_semesters' => $this->number_of_semesters,
-            //'branches' => BranchResource::collection($this->branches),
+            'subjects' => SubjectWithSubtopicResource::collection($this->subjects)
         ];
     }
 }
