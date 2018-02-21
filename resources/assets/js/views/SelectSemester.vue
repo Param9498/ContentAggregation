@@ -4,8 +4,8 @@
         <div class="container-fluid">
             <div v-if="number_of_semester" class="container">
                 <h1>Select Semester</h1>
-                <div v-for="n in last_row+1" :key="n.id" class="row">
-                    <div v-for="i in 4" :key="i.id" v-if="((n-1)*4 + i) == ((last_row*4) + 1) && ((n-1)*4 + i) <= number_of_semester" class="col-lg-3 flexbox" :style="'margin-left:'+percentage_offset2+'%;'" id = "paddingSelector">
+                <div v-for="n in row_number+1" :key="n.id" class="row">
+                    <div v-for="i in 4" :key="i.id" v-if="((n-1)*4 + i) == ((row_number*4) + 1) && ((n-1)*4 + i) <= number_of_semester" class="col-lg-3 flexbox" :style="'margin-left:'+percentage_offset2+'%;'" id = "paddingSelector">
                         <div class="imageBox" @click="testFunction((n-1)*4 + i)">
                             <img class="img-fluid" :src="'/images/semester '+((n-1)*4 + i)+'.png'" alt="Card image cap">
                         </div>
@@ -26,7 +26,8 @@
         data: function(){
             return{
                 percentage_offset2: 0.0,
-                default_offset: 0.0
+                default_offset: 0.0,
+                row_number: -1
             }
         },
         mounted(){
@@ -38,16 +39,8 @@
                 });
                 self.percentage_offset2 = self.percentage_offset;
                 self.default_offset = self.percentage_offset;
+                self.row_number = self.last_row;
             });
-            setTimeout(function(){
-                var window_width = document.documentElement.clientWidth;
-                if(window_width < 992){
-                    this.percentage_offset = 0;
-                }
-                else{
-                    this.percentage_offset = this.default_offset;
-                }
-            }, 400);
         },
         beforeDestroy: function() {
             window.removeEventListener('resize', this.getWindowWidth);
@@ -69,16 +62,19 @@
         },
         computed: {
             number_of_semester(){
+                console.log("In computed no of sem"+this.$store.state.number_of_semester);
                 return this.$store.state.number_of_semester;
             },
             percentage_offset: {
                 get:    function(){
+                            console.log("In computed percentage");
                             var temp = this.number_of_semester;
                             if(temp == 0){
                                 this.$router.push('Welcome');
                             }
                             console.log("number-of-sem : "+ temp);
                             temp = temp % 4;
+                            this.percentage_offset2 = ((12 - (3*temp))/2)*8.333;
                             return ((12 - (3*temp))/2)*8.333;
                         },
                 set:    function (newValue) {
@@ -91,6 +87,13 @@
                 return row_number;
             }
         },
+        watch: {
+            number_of_semester: function (val) {
+                alert("yes, computed property changed");
+                this.percentage_offset2 = this.percentage_offset;
+                this.row_number = this.last_row;
+            }
+        }   
     }
 </script>
 

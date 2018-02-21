@@ -3,8 +3,8 @@
         <div class="container-fluid">
             <div class="container">
                 <h1 id="select-subject-heading">Select Subject</h1>
-                <div v-for="n in last_row+1" :key="n.id" class="row">
-                    <div v-for="i in 4" :key="i.id" v-if="((n-1)*4 + i) == ((last_row*4) + 1) && ((n-1)*4 + i) <= number_of_subjects" class="col-lg-3 flexbox" :style="'margin-left:'+percentage_offset+'%;'" id = "paddingSelector">
+                <div v-for="n in row_number+1" :key="n.id" class="row">
+                    <div v-for="i in 4" :key="i.id" v-if="((n-1)*4 + i) == ((row_number*4) + 1) && ((n-1)*4 + i) <= number_of_subjects" class="col-lg-3 flexbox" :style="'margin-left:'+percentage_offset2+'%;'" id = "paddingSelector">
                         <div class="textBox" @click="updateSelectedSubject(subjects[(n-1)*4 + i - 1])">
                             {{subjects[(n-1)*4 + i - 1].name}}
                         </div>
@@ -24,10 +24,9 @@
     export default{
         data: function(){
             return {
-                subjects: [],
-                number_of_subjects: 0,
-                percentage_offset: 0.0,
-                last_row: -1,
+                percentage_offset2: 0.0,
+                default_offset: 0.0,
+                row_number: -1
             }
         },
         mounted() {
@@ -37,31 +36,14 @@
                 if(self.selected_semester == -1){
                     this.$router.push('SelectSemester');
                 }
-                self.findSubjects();
-                self.calculateRows();
-                
+                self.percentage_offset2 = self.percentage_offset;
+                self.default_offset = self.percentage_offset;
+                self.row_number = self.last_row;
+                this.$nextTick(function() {
+                    window.addEventListener('resize', this.getWindowWidth);
+                    this.getWindowWidth();
+                });
             });
-            this.$nextTick(function() {
-                window.addEventListener('resize', this.getWindowWidth);
-                
-            });
-            setTimeout(function(){
-                var window_width = document.documentElement.clientWidth;
-                if(window_width < 992){
-                    var element = document.getElementById("paddingSelector");
-                    //alert(window_width);
-                    if(element != null){
-                        element.classList.add("togglePadding");
-                    }
-                }
-                else{
-                    //alert("window width" + window_width);
-                    var element = document.getElementById("paddingSelector");
-                    if(element != null && element.classList.contains("togglePadding")){
-                        element.classList.remove("togglePadding");
-                    }
-                }
-            }, 400);
         },
         beforeDestroy: function() {
             window.removeEventListener('resize', this.getWindowWidth);
@@ -72,43 +54,54 @@
             },
             selected_semester(){
                 return this.$store.state.selected_semester;
+            },
+            percentage_offset: {
+                get:    function(){
+                            var temp = this.number_of_subjects;
+                            console.log("number-of-subs : "+ temp);
+                            temp = temp % 4;
+                            //this.percentage_offset2 = ((12 - (3*temp))/2)*8.333;
+                            return ((12 - (3*temp))/2)*8.333;
+                        },
+                set:    function (newValue) {
+                            this.percentage_offset2 = newValue;
+                        }
+            },
+            last_row(){
+                var row_number = -1;
+                row_number = Math.floor(this.number_of_subjects/4);
+                return row_number;
+            },
+            number_of_subjects(){
+                return this.subjects.length;
+            },
+            subjects(){
+                var subs = this.list_of_subjects;
+                var subs2 = [];
+                subs.forEach(subject => {
+                    if(subject.semester_number == this.selected_semester){
+                        subs2.push(subject);
+                    }
+                });
+                return subs2;
+            }
+        },
+        watch: {
+            number_of_subjects: function (val) {
+                alert("yes, computed property changed");
+                this.percentage_offset2 = this.percentage_offset;
+                this.row_number = this.last_row;
             }
         },
         methods:{
             getWindowWidth:function(event){
                 var window_width = document.documentElement.clientWidth;
                 if(window_width < 992){
-                    var element = document.getElementById("paddingSelector");
-                        //alert(window_width);
-                        if(element != null){
-                            element.classList.add("togglePadding");
-                        }
+                    this.percentage_offset = 0;
                     }
                     else{
-                        //alert("window width" + window_width);
-                        var element = document.getElementById("paddingSelector");
-                        if(element != null && element.classList.contains("togglePadding")){
-                            element.classList.remove("togglePadding");
-                        }
+                        this.percentage_offset = this.default_offset;
                     }
-            },
-            findSubjects: function(){
-                var subs = this.list_of_subjects;
-                subs.forEach(subject => {
-                    if(subject.semester_number == this.selected_semester){
-                        this.subjects.push(subject);
-                    }
-                });
-                this.number_of_subjects = this.subjects.length;
-            },
-            calculateRows: function(){
-                var row_number = -1;
-                var temp = this.number_of_subjects;
-                console.log("number-of-subjects : "+ temp);
-                temp = temp % 4;
-                this.percentage_offset = ((12 - (3*temp))/2)*8.333;
-                row_number = Math.floor(this.number_of_subjects/4);
-                this.last_row = row_number;
             },
             updateSelectedSubject: function(subject){
                 this.$store.commit("updateSelectedSubject", subject);
@@ -129,10 +122,6 @@
     font-variant: small-caps;
     font-weight: 1000;
     line-height: 55px;
-}
-.togglePadding{
-    margin-left: auto !important;
-    margin-right: auto !important;
 }
 .textBox{
     position: relative;

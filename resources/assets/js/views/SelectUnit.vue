@@ -2,16 +2,16 @@
     <div>
         <div class="container-fluid">
             <div class="container">
-                <h1 id="select-subject-heading">Select Unit in {{selected_subject.name}}</h1>
-                <div v-for="n in last_row+1" :key="n.id" class="row">
-                    <div v-for="i in 4" :key="i.id" v-if="((n-1)*4 + i) == ((last_row*4) + 1) && ((n-1)*4 + i) <= number_of_units" class="col-lg-3 outer" :style="'margin-left:'+percentage_offset+'%;'" id = "paddingSelector">
+                <h1 id="select-unit-heading">Select Unit in {{selected_subject.name}}</h1>
+                <div v-for="n in row_number+1" :key="n.id" class="row">
+                    <div v-for="i in 4" :key="i.id" v-if="((n-1)*4 + i) == ((row_number*4) + 1) && ((n-1)*4 + i) <= number_of_units" class="col-lg-3 outer" :style="'margin-left:'+percentage_offset2+'%;'" id = "paddingSelector">
                         <div class="textBox" @click="updateSelectedSubject(units[(n-1)*4 + i - 1])">
-                            <div class="inner">{{units[(n-1)*4 + i - 1].name}}</div>
+                            {{units[(n-1)*4 + i - 1].name}}
                         </div>
                     </div>
                     <div v-else-if="((n-1)*4 + i) <= number_of_units" class="col-lg-3 outer">
                         <div class="textBox" @click="updateSelectedSubject(subjects[(n-1)*4 + i - 1])">
-                            <div class="inner">{{units[(n-1)*4 + i - 1].name}}</div>
+                            {{units[(n-1)*4 + i - 1].name}}
                         </div>
                     </div>         
                 </div>
@@ -24,9 +24,9 @@
     export default{
         data: function(){
             return {
-                number_of_units: -1,
-                percentage_offset: 0.0,
-                last_row: -1,
+                percentage_offset2: 0.0,
+                default_offset: 0.0,
+                row_number: -1
             }
         },
         mounted() {
@@ -36,29 +36,14 @@
                 if(self.isEmpty(self.selected_subject)){
                     self.$router.push('SelectSubject');
                 }
-                self.updateNumberOfUnits();
-                self.calculateRows();
-                self.$nextTick(function() {
+                self.percentage_offset2 = self.percentage_offset;
+                self.default_offset = self.percentage_offset;
+                self.row_number = self.last_row;
+                this.$nextTick(function() {
                     window.addEventListener('resize', self.getWindowWidth);
+                    this.getWindowWidth()
                 });
             });
-            setTimeout(function(){
-                var window_width = document.documentElement.clientWidth;
-                if(window_width < 992){
-                    var element = document.getElementById("paddingSelector");
-                    //alert(window_width);
-                    if(element != null){
-                        element.classList.add("togglePadding");
-                    }
-                }
-                else{
-                    //alert("window width" + window_width);
-                    var element = document.getElementById("paddingSelector");
-                    if(element != null && element.classList.contains("togglePadding")){
-                        element.classList.remove("togglePadding");
-                    }
-                }
-            }, 400);
         },
         beforeDestroy: function() {
             window.removeEventListener('resize', this.getWindowWidth);
@@ -69,28 +54,38 @@
             },
             selected_subject(){
                 return this.$store.state.selected_subject;
-            }
+            },
+            number_of_units(){
+                return this.units.length;
+            },
+            percentage_offset: {
+                get:    function(){
+                            var temp = this.number_of_units;
+                            console.log("number-of-units : "+ temp);
+                            temp = temp % 4;
+                            //this.percentage_offset2 = ((12 - (3*temp))/2)*8.333;
+                            return ((12 - (3*temp))/2)*8.333;
+                        },
+                set:    function (newValue) {
+                            this.percentage_offset2 = newValue;
+                        }
+            },
+            last_row(){
+                var row_number = -1;
+                row_number = Math.floor(this.number_of_units/4);
+                return row_number;
+            },
         },
         methods:{
             getWindowWidth:function(event){
+                console.log("change");
                 var window_width = document.documentElement.clientWidth;
                 if(window_width < 992){
-                    var element = document.getElementById("paddingSelector");
-                    //alert(window_width);
-                    if(element != null){
-                        element.classList.add("togglePadding");
-                    }
+                    this.percentage_offset = 0;
                 }
                 else{
-                    //alert("window width" + window_width);
-                    var element = document.getElementById("paddingSelector");
-                    if(element != null && element.classList.contains("togglePadding")){
-                        element.classList.remove("togglePadding");
-                    }
+                    this.percentage_offset = this.default_offset;
                 }
-            },
-            updateNumberOfUnits: function(){
-                this.number_of_units = this.units.length;
             },
             calculateRows: function(){
                 var row_number = -1;
@@ -112,12 +107,19 @@
                 }
                 return true;
             }
-        }
+        },
+        watch: {
+            number_of_units: function (val) {
+                alert("yes, computed property changed");
+                this.percentage_offset2 = this.percentage_offset;
+                this.row_number = this.last_row;
+            }
+        },
     }
 </script>
 
 <style scoped>
-#select-subject-heading{
+#select-unit-heading{
     position: relative;
     margin: 40px auto;
     text-align: center;
@@ -126,7 +128,7 @@
     font-style: normal;
     font-variant: small-caps;
     font-weight: 1000;
-    line-height: 26.4px;
+    line-height: 55px;
 }
 .togglePadding{
     margin-left: auto !important;
