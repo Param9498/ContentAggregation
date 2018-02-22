@@ -9,6 +9,8 @@ localStorage.removeItem('number_of_semester')
 localStorage.removeItem('selected_semester')
 localStorage.removeItem('selected_subject')
 localStorage.removeItem('units_in_selected_subject')
+localStorage.removeItem('selected_unit')
+localStorage.removeItem('subtopics_in_selected_unit')
 
 export const store = new Vuex.Store({
     state:{
@@ -16,7 +18,9 @@ export const store = new Vuex.Store({
         number_of_semester: 0,
         selected_semester: -1,
         selected_subject: {},
-        units_in_selected_subject: []
+        units_in_selected_subject: [],
+        selected_unit: {},
+        subtopics_in_selected_unit: [],
     },
     actions: {
         loadData({commit}){
@@ -61,6 +65,13 @@ export const store = new Vuex.Store({
             state.selected_semester = -1;
             state.selected_subject = {};
             state.units_in_selected_subject = [];
+            state.selected_unit= {};
+            state.subtopics_in_selected_unit= [];
+        },
+        updateSelectedUnit(state, unit){
+            state.selected_unit = unit;
+            state.subtopics_in_selected_unit = unit.subtopics;
+            
         }
     },
     plugins: [

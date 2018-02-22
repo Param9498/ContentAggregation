@@ -35,7 +35,7 @@
         methods:{
             logout: function(){
                 console.log("Logging out!");
-                //this.$store.commit('clearStateData');
+                this.$store.commit('clearStateData');
                 window.location.href = '/logout';
             }
         }

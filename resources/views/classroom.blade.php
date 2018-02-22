@@ -15,9 +15,9 @@
         }
     </style>
 </head>
-<body style="background-color: #FFFAE4;">
-    <div id="app">
-        <app></app>
+<body>
+    <div id="app-classroom">
+        <classroom></classroom>
     </div>
 
     <script>

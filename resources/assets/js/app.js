@@ -14,9 +14,12 @@ import Welcome from './views/Welcome'
 import { store } from './store/store'
 import SelectSubject from './views/SelectSubject'
 import SelectUnit from './views/SelectUnit'
+import Classroom from './views/classroom/Classroom'
 
 window.Vue = require('vue');
 Vue.use(VueRouter);
+
+export const bus = new Vue();
 
 const router = new VueRouter({
     mode: 'history',
@@ -40,28 +43,59 @@ const router = new VueRouter({
             path: '/spa/SelectUnit',
             name: 'SelectUnit',
             component: SelectUnit,
+        },
+        {
+            path: '/classroom/:lesson_number',
+            name: 'classroom',
+            component: Classroom,
         }
     ],
 });
 
-const app = new Vue({
-    store: store,
-    el: '#app',
-    components:{
-        'app': App
-    },
-    created() {
-        store.dispatch('loadData').then(response => {
-            console.log("test "+response);
-        });
-        setInterval(function () {
+if(document.getElementById('app')){
+    const app = new Vue({
+        store: store,
+        el: '#app',
+        components:{
+            'app': App
+        },
+        created() {
             store.dispatch('loadData').then(response => {
                 console.log("test "+response);
             });
-          }.bind(this), 30000); 
-    },
-    mounted(){
-        
-    },
-    router
-});
+            setInterval(function () {
+                store.dispatch('loadData').then(response => {
+                    console.log("test "+response);
+                });
+              }.bind(this), 30000); 
+        },
+        mounted(){
+            
+        },
+        router
+    });
+}
+
+if(document.getElementById('app-classroom')){
+    const app = new Vue({
+        store: store,
+        el: '#app-classroom',
+        components:{
+            'classroom': Classroom
+        },
+        created() {
+            store.dispatch('loadData').then(response => {
+                console.log("test "+response);
+            });
+            setInterval(function () {
+                store.dispatch('loadData').then(response => {
+                    console.log("test "+response);
+                });
+              }.bind(this), 30000); 
+        },
+        mounted(){
+            
+        },
+        router
+    });
+}

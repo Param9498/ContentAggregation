@@ -10,4 +10,8 @@ class SpaController extends Controller
     {
         return view('spa');
     }
+    public function classroom()
+    {
+        return view('classroom');
+    }
 }

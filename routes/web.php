@@ -23,3 +23,6 @@ Route::get('/spa/{any}', 'SpaController@index')->where('any', '.*')->middleware(
 Route::get('/spa', 'SpaController@index')->middleware('auth');
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout')->middleware('auth');
+
+Route::get('/classroom/{any}', 'SpaController@classroom')->where('any', '.*')->middleware('auth');
+Route::get('/classroom', 'SpaController@classroom')->middleware('auth');

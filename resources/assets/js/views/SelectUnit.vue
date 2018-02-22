@@ -5,12 +5,12 @@
                 <h1 id="select-unit-heading">Select Unit in {{selected_subject.name}}</h1>
                 <div v-for="n in row_number+1" :key="n.id" class="row">
                     <div v-for="i in 4" :key="i.id" v-if="((n-1)*4 + i) == ((row_number*4) + 1) && ((n-1)*4 + i) <= number_of_units" class="col-lg-3 outer" :style="'margin-left:'+percentage_offset2+'%;'" id = "paddingSelector">
-                        <div class="textBox" @click="updateSelectedSubject(units[(n-1)*4 + i - 1])">
+                        <div class="textBox" @click="updateSelectedUnit(units[(n-1)*4 + i - 1])">
                             {{units[(n-1)*4 + i - 1].name}}
                         </div>
                     </div>
                     <div v-else-if="((n-1)*4 + i) <= number_of_units" class="col-lg-3 outer">
-                        <div class="textBox" @click="updateSelectedSubject(subjects[(n-1)*4 + i - 1])">
+                        <div class="textBox" @click="updateSelectedUnit(units[(n-1)*4 + i - 1])">
                             {{units[(n-1)*4 + i - 1].name}}
                         </div>
                     </div>         
@@ -106,6 +106,11 @@
                         return false;
                 }
                 return true;
+            },
+            updateSelectedUnit: function(unit){
+                this.$store.commit("updateSelectedUnit", unit);
+                window.location.href = '/classroom/'+unit.unit_number;
+                //this.$router.push({ path: `/classroom/${unit.unit_number}`});
             }
         },
         watch: {
