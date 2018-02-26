@@ -7,12 +7,12 @@
                 <div v-for="n in row_number+1" :key="n.id" class="row">
                     <div v-for="i in 4" :key="i.id" v-if="((n-1)*4 + i) == ((row_number*4) + 1) && ((n-1)*4 + i) <= number_of_semester" class="col-lg-3 flexbox" :style="'margin-left:'+percentage_offset2+'%;'" id = "paddingSelector">
                         <div class="imageBox" @click="testFunction((n-1)*4 + i)">
-                            <img class="img-fluid" :src="'/images/semester '+((n-1)*4 + i)+'.png'" alt="Card image cap">
+                            <img class="img-fluid" :src="'/storage/images/semester '+((n-1)*4 + i)+'.png'" alt="Card image cap">
                         </div>
                     </div>
                     <div v-else-if="((n-1)*4 + i) <= number_of_semester" class="col-lg-3 flexbox">
                         <div class="imageBox" @click="testFunction((n-1)*4 + i)">
-                            <img class="img-fluid" :src="'/images/semester '+((n-1)*4 + i)+'.png'" alt="Card image cap">
+                            <img class="img-fluid" :src="'/storage/images/semester '+((n-1)*4 + i)+'.png'" alt="Card image cap">
                         </div>
                     </div>         
                 </div>

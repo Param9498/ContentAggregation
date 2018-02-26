@@ -17,7 +17,8 @@ export default {
         'youtubeLink',
         'topic',
         'description',
-        'isClicked'
+        'isClicked',
+        'notesPdf'
     ],
   data () {
     return {
@@ -26,6 +27,7 @@ export default {
   methods:{
       changeLessonView:function(topic){
           bus.$emit('videoChange', this.youtubeLink);
+          bus.$emit('notesChange', this.notesPdf);
           bus.$emit('topicChange', this.topic);
           bus.$emit('descriptionChange', this.description);
           console.log(this.isClicked);

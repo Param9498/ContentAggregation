@@ -12,13 +12,38 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+        .navbar{
+            background-color:#64445A;
+        }
+        .nav-link:hover{
+            background-color: rgb(49, 32, 44);
+        }
+        .nav-link{
+            color: #FFFFFF; 
+            text-decoration: none;
+        }
+        .card{
+            background: rgba(0,0,0,0);
+        }
+        .btn-primary{
+            background:#64445A; 
+            border-color: #64445A;
+        }
+        .btn-link{
+            color: #64445A;
+        }
+        .btn-link:hover{
+            color: rgb(49, 32, 44);
+        }
+    </style>
 </head>
-<body>
+<body style="background-color: #FFFAE4;">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+        <nav class="navbar navbar-expand-md navbar-dark navbar-laravel">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    Crack Engineering
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>

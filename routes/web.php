@@ -26,3 +26,6 @@ Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout')->middl
 
 Route::get('/classroom/{any}', 'SpaController@classroom')->where('any', '.*')->middleware('auth');
 Route::get('/classroom', 'SpaController@classroom')->middleware('auth');
+
+
+Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');

@@ -5,7 +5,7 @@
       <!-- <side-bar-nav-sub-topic youtube-link="https://www.youtube.com/embed/jzh4zQcfB0o?autoplay=1" description="Description of Intro to Vue JS" topic="Intro to Vue JS"></side-bar-nav-sub-topic>
       <side-bar-nav-sub-topic youtube-link="https://www.youtube.com/embed/_9YMpuLDnwo?autoplay=1" description="Description of Intermediate Vue JS" topic="Intermediate Vue JS"></side-bar-nav-sub-topic>
       <side-bar-nav-sub-topic youtube-link="https://www.youtube.com/embed/FlsCjmMhFmw?autoplay=1" description="Description of Advanced VueJS" topic="Advanced VueJS"></side-bar-nav-sub-topic> -->
-      <side-bar-nav-sub-topic v-for="subtopic in subtopics" :key="subtopic.id" :youtube-link="subtopic.youtube_link" :description="subtopic.description" :topic="subtopic.name"  @click.native="changeClicked(subtopic.name+subtopic.description)" :is-clicked="isClicked(subtopic.name+subtopic.description)"></side-bar-nav-sub-topic>
+      <side-bar-nav-sub-topic v-for="subtopic in subtopics" :key="subtopic.id" :youtube-link="subtopic.youtube_link" :notes-pdf="subtopic.notes" :description="subtopic.description" :topic="subtopic.name"  @click.native="changeClicked(subtopic.name+subtopic.description)" :is-clicked="isClicked(subtopic.name+subtopic.description)"></side-bar-nav-sub-topic>
     </side-bar-nav-list>
     <side-bar-toggler></side-bar-toggler>
   </div>
